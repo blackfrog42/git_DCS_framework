@@ -1,18 +1,28 @@
+\BLOCK{ block documentclass -}	
+	\documentclass[]{memoir}
+\BLOCK{- endblock documentclass -}
 
-\BLOCK{documentclass}	
-\documentclass[]{article}
-\BLOCk{endblock}
+\usepackage[local,mark,marknotags]{gitinfo2}
 
-\BLOCK{preamble}		\BLOCK{endblock}
 
-\BLOCK{document}	
+\BLOCK{- block preamble }		\BLOCK{endblock preamble -}
 
-	\BLOCK{frontmatter}		\BLOCK{endblock}
+\BLOCK{ block metadata -}		
+\title{Temporary Title}
+\author{That Guy}
+\BLOCK{- endblock metadata }
 
-	\BLOCK{mainmatter}		\BLOCK{endblock}
+\BLOCK{ block document}	
+	\begin{document}
+	\maketitle
 
-	\BLOCK{appendix}		\BLOCK{endblock}
+		\BLOCK{ block frontmatter}		\BLOCK{endblock}
+		\#{\mainmatter}
+		\BLOCK{ block mainmatter}		\BLOCK{endblock}
 
-	\BLOCK{backmatter}		\BLOCK{endblock}
+		\BLOCK{ block appendix}			\BLOCK{endblock}
 
-\BLOCK{endblock}
+		\BLOCK{ block backmatter}		\BLOCK{endblock}
+	
+	\end{document}
+\BLOCK{endblock document}

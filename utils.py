@@ -18,27 +18,33 @@ def get_options_from_file(path):
     return options
 
 def get_options_from_json_file(path):
-	options = json.loads(input_json_string)
-	#TODO check that JSON file import works
+    with open(path) as f:
+        input_json_string = f.read()
+        options = json.loads(input_json_string)
+    #TODO check that JSON file import works
+    return options
 
 def get_template(template_file):
     """Get a jinja template with latex tags.
 
     modified from http://eosrei.net/articles/2015/11/latex-templates-python-and-jinja2-generate-pdfs
     """
+    
+    template_paths = [os.path.abspath('/'),os.path.abspath('.')]
     latex_jinja_env = jinja2.Environment(
-    	block_start_string = '\BLOCK{',
-    	block_end_string = '}',
-    	variable_start_string = '\VAR{',
-    	variable_end_string = '}',
-    	comment_start_string = '\#{',
-    	comment_end_string = '}',
-    	line_statement_prefix = '%%',
-    	line_comment_prefix = '%#',
-    	trim_blocks = True,
-    	autoescape = False,
-    	loader = jinja2.FileSystemLoader(os.path.abspath('/'))
+        block_start_string = '\BLOCK{',
+        block_end_string = '}',
+        variable_start_string = '\VAR{',
+        variable_end_string = '}',
+        comment_start_string = '\#{',
+        comment_end_string = '}',
+        line_statement_prefix = '%%',
+        line_comment_prefix = '%#',
+        trim_blocks = True,
+        autoescape = False,
+        loader = jinja2.FileSystemLoader(template_paths)
     )
+    print(os.path.abspath('.'))
     template = latex_jinja_env.get_template(os.path.realpath(template_file))
     return template
 

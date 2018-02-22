@@ -1,0 +1,19 @@
+\BLOCK{ extends "Templates/default.tex" }
+\BLOCK{ set section_level = { 0 : "\part", 1:"\chapter",2:"\section"} }
+
+\BLOCK{ block mainmatter }
+\section{hello world}
+	\BLOCK{- for key in data.keys() recursive -}
+
+		\BLOCK{ if data[key] is mapping }
+			\VAR{ section_level[loop.depth]-}{\VAR{key}}
+			\begin{itemize}
+				\VAR{ loop(data[key])}
+			\end{itemize}
+		\BLOCK{ else }
+			\item{\VAR{ key|e } = \VAR{ data[key] }}
+		\BLOCK{ endif }
+	\BLOCK{- endfor }
+
+
+\BLOCK{ endblock }

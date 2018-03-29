@@ -1,0 +1,13 @@
+\BLOCK{ extends "Templates/default.tex" }
+\BLOCK{ set section_level = { 0 : "\part", 1:"\chapter",2:"\section"} }
+
+\BLOCK{ block preamble }
+\VAR{ super() }
+\usepackage{blindtext}
+\BLOCK{ endblock }
+
+\BLOCK{ block mainmatter }
+
+\Blinddocument
+
+\BLOCK{ endblock }

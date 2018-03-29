@@ -1,2 +1,4 @@
 /temp/*
+/.build/*
 *.pyc
+/venv/*

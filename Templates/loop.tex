@@ -6,12 +6,12 @@
 	\BLOCK{- for key in data.keys() recursive -}
 
 		\BLOCK{ if data[key] is mapping }
-			\VAR{ section_level[loop.depth]-}{\VAR{key}}
+			\VAR{ section_level[loop.depth] -}{\VAR{key}}
 			\begin{itemize}
 				\VAR{ loop(data[key])}
 			\end{itemize}
 		\BLOCK{ else }
-			\item{\VAR{ key|e } = \VAR{ data[key] }}
+			\item{\VAR{ key|e } = \VAR{ data[key]|e }}
 		\BLOCK{ endif }
 	\BLOCK{- endfor }
 

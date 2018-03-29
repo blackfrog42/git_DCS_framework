@@ -44,11 +44,12 @@ def get_template(template_file):
         autoescape = False,
         loader = jinja2.FileSystemLoader(template_paths)
     )
+    latex_jinja_env.filters['tex_escape'] = tex_escape
     print(os.path.abspath('.'))
-    template = latex_jinja_env.get_template(os.path.realpath(template_file))
+    template = latex_jinja_env.get_template(os.path.normpath(template_file))
     return template
 
-def compile_pdf_from_template(template, insert_variables, out_path):
+def compile_pdf_from_template(template, insert_variables, out_path, pdflatex_options="-quiet"):
     """Render a template file and compile it to pdf"""
 
     rendered_template = template.render(**insert_variables)
@@ -61,5 +62,41 @@ def compile_pdf_from_template(template, insert_variables, out_path):
     with open(temp_out+'.tex', "w") as f:  # saves tex_code to output file
         f.write(rendered_template)
 
-    os.system('pdflatex -output-directory {} {}'.format(build_d, temp_out+'.tex'))
-    shutil.copy2(temp_out+".pdf", os.path.relpath(out_path))
+    os.system('pdflatex {} -output-directory {} {}'.format(pdflatex_options, build_d, temp_out+'.tex'))
+    #shutil.copy2(temp_out+".pdf", os.path.relpath(out_path))
+
+'''def pdf_from_rendered_tex(rendered_template, out_path,  pdflatex_options="-quiet"):
+    build_d = os.path.join(os.path.dirname(os.path.realpath(out_path)), '.build')
+    print(build_d)
+    if not os.path.exists(build_d):  # create the build directory if not exisiting
+        os.makedirs(build_d)
+
+    temp_out = os.path.join(build_d, "tmp")
+
+    os.system('pdflatex {} -output-directory {} {}'.format(pdflatex_options, build_d, temp_out+'.tex'))
+'''
+
+
+## Define LaTeX escape sequences
+conv = {
+        '&': r'\&',
+        '%': r'\%',
+        '$': r'\$',
+        '#': r'\#',
+        '_': r'\_',
+        '{': r'\{',
+        '}': r'\}',
+        '~': r'\textasciitilde{}',
+        '^': r'\^{}',
+        '\\': r'\textbackslash{}',
+        '<': r'\textless ',
+        '>': r'\textgreater ',
+    }
+regex = re.compile('|'.join(re.escape(str(key)) for key in sorted(conv.keys(), key = lambda item: - len(item))))
+
+def tex_escape(text):
+    """
+        :param text: a plain text message
+        :return: the message escaped to appear correctly in LaTeX
+    """
+    return regex.sub(lambda match: conv[match.group()], str(text))

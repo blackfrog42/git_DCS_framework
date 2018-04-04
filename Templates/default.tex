@@ -2,19 +2,28 @@
 \documentclass[]{article}
 \BLOCK{- endblock documentclass}
 
-\usepackage[mark,marknotags]{gitinfo2}
+\usepackage[marknotags]{gitinfo2}
 
 
-\BLOCK{- block preamble }		\BLOCK{ endblock preamble }
+\BLOCK{- block preamble }
+\BLOCK{ include 'Templates/headers.tex'}
+\BLOCK{ endblock preamble }
 
 \BLOCK{ block metadata -}		
 \title{Temporary Title}
 \author{That Guy}
 \BLOCK{- endblock metadata }
 
-\BLOCK{ block document}	
+\BLOCK{ block document -}
 	\begin{document}
-	\maketitle
+        \BLOCK{ block title_page -}
+            \thispagestyle{titlepage}
+            \BLOCK{ block title_block -}
+                \maketitle
+            \BLOCK{ endblock title_block -}
+
+
+        \BLOCK{ endblock title_page }
 
 		\BLOCK{ block frontmatter}		\BLOCK{endblock}
 		\#{\mainmatter}

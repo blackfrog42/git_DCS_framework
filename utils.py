@@ -26,7 +26,6 @@ def get_options_from_json_file(path):
 
 def get_json_options_recursively(path):
     options = get_options_from_json_file(path)
-    print(options)
     if "include" in options:
         for key,each in options["include"].items():
             sub_options = get_json_options_recursively(each)

@@ -1,5 +1,10 @@
 \BLOCK{ extends "Templates/default.tex" }
-\BLOCK{ set section_level = {0 : "\chapter", 1:"\section",2:"\subsection"} }
+\BLOCK{ set section_level = {0 : "\section", 1:"\subsection",2:"\subsubsection"} }
+
+\BLOCK{ block metadata -}
+\VAR{ super() }
+\title{\VAR{title|tex_escape}}
+\BLOCK{- endblock metadata }
 
 \BLOCK{ block mainmatter }
 \section{hello world}
@@ -9,13 +14,12 @@
         \BLOCK{ set value = baz[1] }
 		\BLOCK{ if value is mapping }
 			\VAR{ section_level[loop.depth]-}{\VAR{key|e}}
-			\begin{itemize}
+			\begin{labeling}{solidsbyvacuumovenbazbazbaz}
 				\VAR{ loop(value.items())}
-			\end{itemize}
+			\end{labeling}
 		\BLOCK{ else }
-			\item{\VAR{ key|tex_escape } = \VAR{ value|tex_escape }}
+			\item [\VAR{ key|tex_escape }] \VAR{ value|tex_escape }
 		\BLOCK{ endif }
 	\BLOCK{- endfor }
-
 
 \BLOCK{ endblock }

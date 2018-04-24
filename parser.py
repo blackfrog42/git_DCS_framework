@@ -26,7 +26,7 @@ out_file = "{}renderer_template.pdf".format(project)
 template = utils.get_template(template_file)
 
 if args['type'] == "json":
-    options = utils.get_options_from_json_file(in_file)
+    options = utils.get_json_options_recursively(in_file)
     print()
 elif args['type'] == "options":
     options = utils.get_options_from_file(in_file)

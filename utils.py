@@ -24,13 +24,22 @@ def get_options_from_json_file(path):
     #TODO check that JSON file import works
     return options
 
+def get_json_options_recursively(path):
+    options = get_options_from_json_file(path)
+    print(options)
+    if "include" in options:
+        for key,each in options["include"].items():
+            sub_options = get_json_options_recursively(each)
+            options["data"].update(sub_options["data"])
+    return options
+
 def get_template(template_file):
     """Get a jinja template with latex tags.
 
     modified from http://eosrei.net/articles/2015/11/latex-templates-python-and-jinja2-generate-pdfs
     """
     
-    template_paths = [os.path.abspath('/'),os.path.abspath('.')]
+    template_paths = [os.path.abspath('./Templates'),os.path.abspath('.')]
     latex_jinja_env = jinja2.Environment(
         block_start_string = '\BLOCK{',
         block_end_string = '}',

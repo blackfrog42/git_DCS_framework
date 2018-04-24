@@ -2,3 +2,5 @@
 /.build/*
 *.pyc
 /venv/*
+Data/
+.idea/

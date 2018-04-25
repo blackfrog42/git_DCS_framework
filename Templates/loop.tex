@@ -7,8 +7,9 @@
 \BLOCK{- endblock metadata }
 
 \BLOCK{ block mainmatter }
-\section{hello world}
-\VAR{  "abc" is mapping }
+
+\#{VAR{  "abc" is mapping }}
+\begin{multicols}{2}
 {	\BLOCK{- for baz in data.items() recursive -}
         \BLOCK{ set key = baz[0]}
         \BLOCK{ set value = baz[1] }
@@ -21,5 +22,19 @@
 			\item [\VAR{ key|tex_escape }] \VAR{ value|tex_escape }
 		\BLOCK{ endif }
 	\BLOCK{- endfor }
+}\end{multicols}
 
-\BLOCK{ endblock }
+	\BLOCK{- for baz in longdata.items() recursive -}
+        \BLOCK{ set key = baz[0]}
+        \BLOCK{ set value = baz[1] }
+		\BLOCK{ if value is mapping }
+			\VAR{ section_level[loop.depth]-}{\VAR{key|e}}
+			\begin{labeling}{solidsbyvacuumovenbazbazbaz}
+				\VAR{ loop(value.items())}
+			\end{labeling}
+		\BLOCK{ else }
+			\item [\VAR{ key|tex_escape }] \VAR{ value|tex_escape }
+		\BLOCK{ endif }
+	\BLOCK{- endfor }
+
+\BLOCK{ endblock mainmatter }

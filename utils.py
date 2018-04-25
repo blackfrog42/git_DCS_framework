@@ -25,11 +25,14 @@ def get_options_from_json_file(path):
     # TODO check that JSON file import works
     return options
 
-def get_json_options_recursively(path):
+
+def get_json_options_recursively(path, verbose=False):
     options = get_options_from_json_file(path)
     if "include" in options:
+        if verbose: print("Files to import: {}".format(options["include"].values()))
         for key, each in options["include"].items():
             sub_options = get_json_options_recursively(each)
+            if verbose: print("importing {}".format(key))
             for sub_key, sub_each in sub_options.items():
                 if sub_key != "include":
                     try:
@@ -38,6 +41,7 @@ def get_json_options_recursively(path):
                     except KeyError:
                         print("KeyError! {} not in subkey!".format(sub_key))
                         options[sub_key] = sub_options[sub_key]
+            if verbose: print("Finished {}".format(key))
     return options
 
 

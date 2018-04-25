@@ -8,7 +8,7 @@ parser.add_argument('type', choices=['tex', 'options', 'json'])
 parser.add_argument('-i','--input', help='Input File', required=False, default='./example.txt' )
 parser.add_argument('-t','--template', help='Template File', required=False, default='./template.tex')
 parser.add_argument('-r','--renderfile', help='Save Render to File', required=False, default='./rendered_latex.tex')
-
+parser.add_argument('--verbose', help='Print more data', action='store_true')
 args = vars(parser.parse_args())
 
 
@@ -26,12 +26,11 @@ out_file = "{}renderer_template.pdf".format(project)
 template = utils.get_template(template_file)
 
 if args['type'] == "json":
-    options = utils.get_json_options_recursively(in_file)
-    print()
+    options = utils.get_json_options_recursively(in_file, verbose=args["verbose"])
 elif args['type'] == "options":
     options = utils.get_options_from_file(in_file)
 else: # args['type'] == "tex":
     options = dict()
-
+if args["verbose"]: print(options)
 utils.compile_pdf_from_template(template, options, out_file)
 

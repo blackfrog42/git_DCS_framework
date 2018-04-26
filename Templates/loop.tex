@@ -1,5 +1,10 @@
 \BLOCK{ extends "Templates/default.tex" }
-\BLOCK{ set section_level = {0 : "\section", 1:"\subsection",2:"\subsubsection"} }
+\BLOCK{ set section_level = {0 : "\chapter", 1:"\section",2:"\subsection"} }
+
+\BLOCK{ block documentclass -}
+\documentclass[]{article}
+\usepackage{enumitem}
+\BLOCK{ endblock documentclass }
 
 \BLOCK{ block metadata -}
 \VAR{ super() }
@@ -8,18 +13,21 @@
 
 \BLOCK{ block mainmatter }
 
-\#{VAR{  "abc" is mapping }}
 \begin{multicols}{2}
 {	\BLOCK{- for baz in data.items() recursive -}
         \BLOCK{ set key = baz[0]}
         \BLOCK{ set value = baz[1] }
 		\BLOCK{ if value is mapping }
-			\VAR{ section_level[loop.depth]-}{\VAR{key|e}}
-			\begin{labeling}{solidsbyvacuumovenbazbazbaz}
+			\VAR{- section_level[loop.depth]-}{\VAR{key|e}}
+			    \BLOCK{ set block = true if value.__iter__().__next__() is not mapping else False -}
+			    \BLOCK{ if block is sameas true } \begin{tabular}{ r r } \BLOCK{ endif }
+
 				\VAR{ loop(value.items())}
-			\end{labeling}
+
+			    \BLOCK{  if block is sameas true -} \end{tabular}
+                \BLOCK{ endif }
 		\BLOCK{ else }
-			\item [\VAR{ key|tex_escape }] \VAR{ value|tex_escape }
+			\VAR{ key|tex_escape } & \VAR{ value|tex_escape } \\
 		\BLOCK{ endif }
 	\BLOCK{- endfor }
 }\end{multicols}
@@ -29,9 +37,9 @@
         \BLOCK{ set value = baz[1] }
 		\BLOCK{ if value is mapping }
 			\VAR{ section_level[loop.depth]-}{\VAR{key|e}}
-			\begin{labeling}{solidsbyvacuumovenbazbazbaz}
+			\begin{description}[align=right,labelwidth=3cm]
 				\VAR{ loop(value.items())}
-			\end{labeling}
+			\end{description}
 		\BLOCK{ else }
 			\item [\VAR{ key|tex_escape }] \VAR{ value|tex_escape }
 		\BLOCK{ endif }

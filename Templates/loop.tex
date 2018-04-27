@@ -32,6 +32,31 @@
 	\BLOCK{- endfor }
 }\end{multicols}
 
+    \BLOCK{ if  composition.keys()| length  != 0-}
+        \begin {table}
+        \caption {Composition} \label{tab:Composition}
+        \begin{center}
+		\begin{tabular}{l*{\VAR{ composition.keys()|length }}{c}}
+		\hline
+		&
+		\VAR{- composition.keys() |join(' & ') } \\
+		\hline
+
+		\BLOCK{- for limit in ["Max","Target","Min"] }
+            \VAR{ limit }
+            \BLOCK{ for key,value in composition.items()  -}
+                & \VAR{ (value[limit] * 100)|round(1) -}\%
+            \BLOCK{ endfor -}
+            \\
+		\BLOCK{ endfor  }
+
+		\end {tabular}
+
+		\end{center}
+        \end {table}
+
+    \BLOCK{- endif  }
+
 	\BLOCK{- for baz in longdata.items() recursive -}
         \BLOCK{ set key = baz[0]}
         \BLOCK{ set value = baz[1] }

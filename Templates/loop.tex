@@ -54,7 +54,31 @@
 
 		\end{center}
         \end {table}
+    \BLOCK{- endif  }
 
+    \BLOCK{ if  Packaging.keys()| length  != 0-}
+		\BLOCK{ set unpack = (Packaging.values()|list) }
+        \begin {table}
+        \caption {Packaging} \label{tab:Packaging}
+        \begin{center}
+		\begin{tabular}{l|*{\VAR{ Packaging.keys()|length }}{c}}
+		\hline
+		&
+		\VAR{- Packaging.keys() |join(' & ') } \\
+		\hline
+
+		\BLOCK{- for property in unpack[0].keys()}
+            \VAR{ property }
+            \BLOCK{ for key,value in Packaging.items()  -}
+                & \VAR{ value[property] -}\
+            \BLOCK{ endfor -}
+            \\
+		\BLOCK{ endfor  }
+
+		\end {tabular}
+
+		\end{center}
+        \end {table}
     \BLOCK{- endif  }
 
 	\BLOCK{- for baz in longdata.items() recursive -}

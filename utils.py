@@ -66,7 +66,7 @@ def get_template(template_file):
         loader=jinja2.FileSystemLoader(template_paths)
     )
     latex_jinja_env.filters['tex_escape'] = tex_escape
-    print(os.path.abspath('.'))
+    print("Loading Template {}".format(os.path.abspath(template_file)))
     template = latex_jinja_env.get_template(os.path.normpath(template_file))
     return template
 
@@ -76,11 +76,12 @@ def compile_pdf_from_template(template, insert_variables, out_path, pdflatex_opt
 
     rendered_template = template.render(**insert_variables)
     build_d = os.path.join(os.path.dirname(os.path.realpath(out_path)), '.build')
-    print(build_d)
+
     if not os.path.exists(build_d):  # create the build directory if not exisiting
         os.makedirs(build_d)
 
     temp_out = os.path.join(build_d, "tmp")
+    print("Writing output to {}.pdf".format(temp_out))
     with open(temp_out + '.tex', "w") as f:  # saves tex_code to output file
         f.write(rendered_template)
 

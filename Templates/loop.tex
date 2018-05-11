@@ -27,7 +27,7 @@
 			    \BLOCK{  if block is sameas true -} \end{tabular}
                 \BLOCK{ endif }
 		\BLOCK{ else }
-			\VAR{ key|tex_escape } & \VAR{ value|tex_escape } \\
+			\VAR{ key|tex_escape } & \VAR{ value } \\
 		\BLOCK{ endif }
 	\BLOCK{- endfor }
 }\end{multicols}
@@ -45,13 +45,16 @@
 		\BLOCK{- for limit in ["Max","Target","Min"] }
             \VAR{ limit }
             \BLOCK{ for key,value in composition.items()  -}
-                & \VAR{ (value[limit] * 100)|round(1) -}\%
+				\BLOCK{ if value[limit] is number }
+					& \VAR{ (value[limit] * 100)|round(1) -}\%
+				\BLOCK{ else }
+					& \VAR{ value[limit]|tex_escape -}
+				\BLOCK{ endif }
             \BLOCK{ endfor -}
             \\
 		\BLOCK{ endfor  }
 
 		\end {tabular}
-
 		\end{center}
         \end {table}
     \BLOCK{- endif  }

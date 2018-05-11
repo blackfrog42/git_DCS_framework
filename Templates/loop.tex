@@ -9,6 +9,7 @@
 \BLOCK{ block metadata -}
 \VAR{ super() }
 \title{\VAR{title|tex_escape}}
+\author{\gitAuthorName}
 \BLOCK{- endblock metadata }
 
 \BLOCK{ block mainmatter }
@@ -20,14 +21,14 @@
 		\BLOCK{ if value is mapping }
 			\VAR{- section_level[loop.depth]-}{\VAR{key|e}}
 			    \BLOCK{ set block = true if value.__iter__().__next__() is not mapping else False -}
-			    \BLOCK{ if block is sameas true } \begin{tabular}{ r r } \BLOCK{ endif }
+			    \BLOCK{ if block is sameas true } \begin{tabular}{ l r } \BLOCK{ endif }
 
 				\VAR{ loop(value.items())}
 
 			    \BLOCK{  if block is sameas true -} \end{tabular}
                 \BLOCK{ endif }
 		\BLOCK{ else }
-			\VAR{ key|tex_escape } & \VAR{ value } \\
+			\VAR{ key|tex_escape } & \VAR{ value|tex_escape } \\
 		\BLOCK{ endif }
 	\BLOCK{- endfor }
 }\end{multicols}
@@ -63,7 +64,6 @@
 		\BLOCK{ set unpack = (Packaging.values()|list) }
         \begin {table}
         \caption {Packaging} \label{tab:Packaging}
-        \begin{center}
 		\begin{tabular}{l|*{\VAR{ Packaging.keys()|length }}{c}}
 		\hline
 		&
@@ -80,7 +80,6 @@
 
 		\end {tabular}
 
-		\end{center}
         \end {table}
     \BLOCK{- endif  }
 
@@ -89,7 +88,7 @@
         \BLOCK{ set value = baz[1] }
 		\BLOCK{ if value is mapping }
 			\VAR{ section_level[loop.depth]-}{\VAR{key|e}}
-			\begin{description}[align=right,labelwidth=3cm]
+			\begin{description}[align=right,labelwidth=5cm]
 				\VAR{ loop(value.items())}
 			\end{description}
 		\BLOCK{ else }

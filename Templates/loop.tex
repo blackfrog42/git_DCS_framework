@@ -27,7 +27,7 @@
 			    \BLOCK{  if block is sameas true -} \end{tabular}
                 \BLOCK{ endif }
 		\BLOCK{ else }
-			\VAR{ key|tex_escape } & \VAR{ value|tex_escape } \\
+			\VAR{ key|tex_escape } & \VAR{ value } \\
 		\BLOCK{ endif }
 	\BLOCK{- endfor }
 }\end{multicols}
@@ -45,7 +45,35 @@
 		\BLOCK{- for limit in ["Max","Target","Min"] }
             \VAR{ limit }
             \BLOCK{ for key,value in composition.items()  -}
-                & \VAR{ (value[limit] * 100)|round(1) -}\%
+				\BLOCK{ if value[limit] is number }
+					& \VAR{ (value[limit] * 100)|round(1) -}\%
+				\BLOCK{ else }
+					& \VAR{ value[limit]|tex_escape -}
+				\BLOCK{ endif }
+            \BLOCK{ endfor -}
+            \\
+		\BLOCK{ endfor  }
+
+		\end {tabular}
+		\end{center}
+        \end {table}
+    \BLOCK{- endif  }
+
+    \BLOCK{ if  Packaging.keys()| length  != 0-}
+		\BLOCK{ set unpack = (Packaging.values()|list) }
+        \begin {table}
+        \caption {Packaging} \label{tab:Packaging}
+        \begin{center}
+		\begin{tabular}{l|*{\VAR{ Packaging.keys()|length }}{c}}
+		\hline
+		&
+		\VAR{- Packaging.keys() |join(' & ') } \\
+		\hline
+
+		\BLOCK{- for property in unpack[0].keys()}
+            \VAR{ property }
+            \BLOCK{ for key,value in Packaging.items()  -}
+                & \VAR{ value[property] -}\
             \BLOCK{ endfor -}
             \\
 		\BLOCK{ endfor  }
@@ -54,7 +82,6 @@
 
 		\end{center}
         \end {table}
-
     \BLOCK{- endif  }
 
 	\BLOCK{- for baz in longdata.items() recursive -}

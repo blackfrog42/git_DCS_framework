@@ -1,11 +1,11 @@
 \usepackage{fancyhdr}
-
-\fancypagestyle{titlepage}{
-	\fancyhead[L]{2011 International Conference on ICIIP}
-	\fancyfoot[L]{Proceedings of the 2011 ICIIP 2011\\
-		978-1-61284-860-0/11/\$26.00 ©2011 IEEE}}
+\usepackage[letterpaper, margin=1in]{geometry}
+%\renewcommand{\gitMark}{\gitHash\hfill\gitRel}
+\fancypagestyle{vermark}{
+	\fancyhead[L]{h \gitmark}
+	\fancyfoot[L]{f \gitCommitterIsoDate }}
 \fancyhead{}
-\fancyfoot{}
-\fancyhead[L]{2011 International Conference on ICIIP}
+\fancyfoot[L]{Hello World}
+\fancyhead[L]{\gitmark}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
